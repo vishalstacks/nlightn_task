@@ -1,13 +1,3 @@
-# website_dumper.py
-"""
-Website Dumper (library + CLI)
-- Crawl a domain starting from a URL
-- Fetch static pages with aiohttp
-- Optionally render pages with Playwright for dynamic content
-- Extract metadata and links with BeautifulSoup
-- Output JSON dump of discovered pages
-"""
-
 import asyncio
 import argparse
 import hashlib
@@ -31,9 +21,7 @@ from playwright.async_api import async_playwright
 import urllib.robotparser
 
 
-# -------------------------
 # Utilities
-# -------------------------
 def normalize_url(base: str, link: str) -> Optional[str]:
     if not link:
         return None
@@ -74,9 +62,7 @@ class PageRecord:
     html_path: Optional[str] = None
 
 
-# -------------------------
 # Fetchers
-# -------------------------
 class StaticFetcher:
     def __init__(self, session: aiohttp.ClientSession, timeout: int = 15):
         self.session = session
@@ -125,9 +111,8 @@ class DynamicFetcher:
                 pass
 
 
-# -------------------------
+
 # Analyzer
-# -------------------------
 def analyze_html(base_url: str, html: str) -> Dict[str, Any]:
     soup = BeautifulSoup(html, "html.parser")
     title_tag = soup.find("title")
@@ -168,9 +153,8 @@ def analyze_html(base_url: str, html: str) -> Dict[str, Any]:
     }
 
 
-# -------------------------
+
 # Crawler
-# -------------------------
 class Crawler:
     def __init__(
         self,
@@ -376,9 +360,8 @@ class Crawler:
             json.dump(out, f, indent=2, ensure_ascii=False)
 
 
-# -------------------------
+
 # CLI
-# -------------------------
 def main():
     parser = argparse.ArgumentParser(description="Website Dumper - crawl and dump pages to JSON")
     parser.add_argument("url", help="Start URL (e.g. https://example.com)")
@@ -416,3 +399,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
